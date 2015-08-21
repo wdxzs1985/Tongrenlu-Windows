@@ -1,0 +1,172 @@
+﻿<Application x:Class="Tongrenlu_Windows.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Tongrenlu_Windows"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <Color x:Key="Cyan_500" >#2196F3</Color>
+        <Color x:Key="Pink_A200" >#FF4081</Color>
+        <Color x:Key="Pink_A400" >#F50057</Color>
+        <Color x:Key="Grey_50" >#FAFAFA</Color>
+
+        <SolidColorBrush x:Key="Primary" Color="{StaticResource Cyan_500}"/>
+        <SolidColorBrush x:Key="Accent" Color="{StaticResource Pink_A200}"/>
+        <SolidColorBrush x:Key="AccentDarker" Color="{StaticResource Pink_A400}"/>
+        <SolidColorBrush x:Key="PrimaryText" Color="White"/>
+
+        <SolidColorBrush x:Key="LightBackground" Color="{StaticResource Grey_50}"/>
+        <SolidColorBrush x:Key="LightPrimaryText" Color="#DD000000"/>
+        <SolidColorBrush x:Key="LightSecondaryText" Color="#89000000"/>
+        <SolidColorBrush x:Key="LightDisabledText" Color="#42000000"/>
+        <SolidColorBrush x:Key="LightDisabledBackground" Color="#1E000000"/>
+        <SolidColorBrush x:Key="DarkDisabledBackground" Color="#1EFFFFFF"/>
+
+        <SolidColorBrush x:Key="StatusBar" Color="#42000000"/>
+
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                             Color="{StaticResource Cyan_500}"/>
+
+        <Style x:Key="AppBarTitle" TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"></Setter>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="AppBarMenuButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <ContentPresenter Name="ContentPresenter" 
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"></ContentPresenter>
+                            <Grid Name="Overlay" Background="White" Opacity="0"></Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Overlay" Property="Opacity" 
+                            Value="0.2" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Overlay" Property="Opacity" 
+                            Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FlatButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle Name="BackgroundWrap" Fill="{TemplateBinding Background}"></Rectangle>
+                            <Rectangle Name="BackgroundHighlight" Fill="Transparent"></Rectangle>
+                            <ContentPresenter Name="ContentPresenter" 
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"></ContentPresenter>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackgroundWrap" Property="Fill" 
+                            Value="{StaticResource Accent}" />
+                                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground" 
+                            Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="BackgroundHighlight" Property="Fill" 
+                            Value="{StaticResource LightDisabledBackground}" />
+                                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground" 
+                            Value="{StaticResource LightDisabledText}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FloatButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate  TargetType="{x:Type Button}">
+                        <Grid >
+                            <Ellipse Name="BackgroundWrap" Fill="{StaticResource Accent}"></Ellipse>
+                            <Ellipse Name="BackgroundHighlight" Fill="Transparent"></Ellipse>
+                            <Label x:Name="ContentLabel"  
+                           Content="{TemplateBinding Content}" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           Foreground="{TemplateBinding Foreground}"></Label>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackgroundHighlight" Property="Fill" 
+                            Value="{StaticResource DarkDisabledBackground}" />
+                                <Setter TargetName="ContentLabel" Property="Foreground" 
+                            Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="BackgroundHighlight" Property="Fill" 
+                            Value="{StaticResource LightDisabledBackground}" />
+                                <Setter TargetName="ContentLabel" Property="Foreground" 
+                            Value="{StaticResource LightDisabledText}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Scrollbar Thumbs-->
+        <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Grid x:Name="Grid">
+                            <Border x:Name="Rectangle"
+                                    Width="Auto" 
+                                    Height="Auto" 
+                                    CornerRadius="4"
+                                    Margin="0,8,0,8"
+                                    Background="{TemplateBinding Background}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ScrollBars-->
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+            <Setter Property="Foreground" Value="LightGray" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="GridRoot" Width="8" Background="{TemplateBinding Background}">
+                            <Track x:Name="PART_Track" IsDirectionReversed="true" Focusable="false">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{StaticResource ScrollThumbs}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Opacity="0" Focusable="false" />
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Opacity="0" Focusable="false" />
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>
