@@ -15,10 +15,12 @@ namespace Tongrenlu_Windows.Http
 {
     public class HttpClient
     {
-
         public const string UA = "Tongrenlu-Windows";
+        public const int KB = 1024;
+        public const int BUFFER_SIZE = KB * 4;
 
         public static readonly ILog log = LogManager.GetLogger(typeof(HttpClient));
+
 
         private CookieContainer cc = null;
 
@@ -30,6 +32,21 @@ namespace Tongrenlu_Windows.Http
         public void clearCookie()
         {
             cc = new CookieContainer();
+        }
+
+        public Cookie findCookie(string url, string name)
+        {
+            HttpWebRequest webreq = CreateRequest(url);
+            var cookies = cc.GetCookies(webreq.RequestUri);
+
+            foreach (Cookie cookie in cookies)
+            {
+                if(cookie.Name.Equals(name))
+                {
+                    return cookie;
+                }
+            }
+            return null;
         }
 
         public string Get(string url)
@@ -219,6 +236,67 @@ namespace Tongrenlu_Windows.Http
                 }
                 return result;
             }
+        }
+        
+        public bool DownloadBinary(string url, string fileName)
+        {
+            var request = CreateRequest(url);
+
+            HttpWebResponse response = null;
+            Stream sw = null;
+            FileStream fs = null;
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+                long total = response.ContentLength;
+                long loaded = 0;
+
+                sw = response.GetResponseStream();
+
+                //ファイルに書き込むためのFileStreamを作成
+                fs = new FileStream(fileName, FileMode.Create);
+
+                //応答データをファイルに書き込む
+                byte[] readData = new byte[BUFFER_SIZE];
+                for (;;)
+                {
+                    //データを読み込む
+                    int readSize = sw.Read(readData, 0, readData.Length);
+                    if (readSize == 0)
+                    {
+                        //すべてのデータを読み込んだ時
+                        break;
+                    }
+                    //読み込んだデータをファイルに書き込む
+                    fs.Write(readData, 0, readSize);
+
+                    loaded += readSize;
+
+                    Console.WriteLine("{0} / {1} loaded.", loaded, total);
+                }
+            }
+            catch
+            {
+
+                return false;
+            }
+            finally
+            {
+                if (sw != null)
+                {
+                    sw.Close();
+                }
+                if (fs != null)
+                {
+                    fs.Close();
+                }
+                if (response != null)
+                {
+                    response.Close();
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Tongrenlu_Windows.UI
 
         public static readonly DependencyProperty UserListProperty = DependencyProperty.Register(
         "UserList",
-        typeof(List<LoginUser>),
+        typeof(List<UserBean>),
         typeof(UserSelector),
         new FrameworkPropertyMetadata(
                 new PropertyChangedCallback(UserSelector.OnUserChanged)
@@ -77,11 +77,11 @@ namespace Tongrenlu_Windows.UI
 
         }
 
-        public List<LoginUser> UserList
+        public List<UserBean> UserList
         {
             get
             {
-                return (List<LoginUser>)GetValue(UserListProperty);
+                return (List<UserBean>)GetValue(UserListProperty);
             }
             set
             {
@@ -102,7 +102,7 @@ namespace Tongrenlu_Windows.UI
             }
         }
 
-        public LoginUser SelectedUser
+        public UserBean SelectedUser
         {
             get
             {
@@ -123,7 +123,7 @@ namespace Tongrenlu_Windows.UI
                 {
                     return "";
                 }
-                return UserList[SelectedIndex].name;
+                return UserList[SelectedIndex].nickname;
             }
         }
 

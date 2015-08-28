@@ -9,10 +9,10 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Background="Transparent"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
+        AllowsTransparency="False"
         Width="992"
-        Height="752"
-        AllowsTransparency="True">
+        Height="752">
     <Grid Margin="16" Background="{StaticResource Primary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"></RowDefinition>
@@ -67,7 +67,7 @@
             </Grid.RowDefinitions>
 
             <Grid Name="ListContent" Grid.Row="2">
-                <ItemsControl d:IsLocked="True">
+                <ItemsControl ItemsSource="{Binding MusicList}">
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="{x:Type ItemsControl}">
                             <ScrollViewer Background="{StaticResource LightBackground}">
@@ -77,46 +77,25 @@
                     </ItemsControl.Template>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Margin="0,0,0,16"></WrapPanel>
+                            <WrapPanel VirtualizingPanel.IsVirtualizing="True" 
+                                       IsItemsHost="True" 
+                                       Orientation="Horizontal" 
+                                       FlowDirection="LeftToRight" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Width="160" Height="200" Margin="16,16,0,0">
-                                <Image Source="Assert/cover.jpg" Width="160" Height="160"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Grid.Column="0"></Image>
-
-                                <TextBlock Text="{Binding title}" Grid.Column="1"
-                                       Foreground="{StaticResource LightPrimaryText}"
-                                     TextWrapping="Wrap"
-                                     Margin="0,8,0,8"
-                                   ></TextBlock>
-                            </StackPanel>
+                            <UI:CoverImageView Cover="{Binding}" 
+                                               Width="160" Height="160"></UI:CoverImageView>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
-                    <data:Music id="m1001" articleId="1001" title="[Alstroemeria Records] The Garnet Star"/>
                 </ItemsControl>
 
             </Grid>
 
-            <Grid Name="DetailContent" Grid.RowSpan="3" Background="{StaticResource LightBackground}" d:IsHidden="True" d:IsLocked="True">
+            <Grid Name="DetailContent" Grid.RowSpan="3" Background="{StaticResource LightBackground}" 
+                  Visibility="Collapsed"
+                  d:IsHidden="True">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="320"></RowDefinition>
@@ -136,7 +115,8 @@
                                    FontSize="32"/>
                     </Grid>
                     <ListBox Name="TrackList" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-                     SelectionChanged="TrackList_SelectionChanged">
+                     SelectionChanged="TrackList_SelectionChanged"
+                             ItemsSource="{Binding TrackList}">
                         <ItemsControl.Template>
                             <ControlTemplate TargetType="{x:Type ItemsControl}">
                                 <ScrollViewer >
@@ -171,24 +151,6 @@
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
-                        <data:Track articleId="1001" title="Prelude" artist="Masayoshi Minoshima" checksum="69015068617fe69c86cce7f79e2628fc"></data:Track>
                     </ListBox>
                 </Grid>
 
@@ -205,7 +167,7 @@
             <StackPanel Name="AppBar" Grid.Row="1" Orientation="Horizontal">
                 <Button Name="AppBarMenu" Style="{StaticResource FlatButton}" 
                         Background="Transparent"
-                        Width="64" Height="64">
+                        Width="64" Height="64" Visibility="Hidden">
                     <Image Source="Assert/ic_menu_white_48dp.png" Width="32" Height="32"/>
                 </Button>
                 <Label Name="AppBarTitle" Content="Demo" Style="{StaticResource AppBarTitle}"/>
@@ -214,15 +176,28 @@
 
         </Grid>
 
-        <Grid Name="StatusBar" Grid.Row="0" Background="#42000000" d:IsLocked="True" >
+        <Grid Name="StatusBar" Grid.Row="0" Background="#42000000" >
             <Label Content="Tongrenlu" Foreground="{StaticResource PrimaryText}"/>
 
-            <Button Style="{StaticResource FlatButton}" Background="Transparent" 
+            <Button Name="UserAvatarButton" 
+                    Style="{StaticResource FlatButton}" Background="Transparent" 
                     Width="32" Height="32"
-                    HorizontalAlignment="Right" VerticalAlignment="Top">
+                    Margin="0,0,32,0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                   Visibility="{Binding IsLogin, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Image Name="UserAvatarButtonImage" 
+                       Source="Assert/ic_account_circle_white_48dp.png"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+
+            <Button Name="CloseWindowButton" 
+                    Style="{StaticResource FlatButton}" Background="Transparent" 
+                    Width="32" Height="32"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Click="CloseWindowButton_Click">
                 <Image Source="Assert/ic_close_white_24dp.png"
                        Width="24" Height="24"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" d:IsHidden="True"/>
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </Grid>
     </Grid>

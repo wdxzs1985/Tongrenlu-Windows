@@ -22,8 +22,73 @@ namespace Tongrenlu_Windows.Data
         }
         #endregion
 
-        public List<LoginUser> LoginUserList { get; set; }
+        private List<UserBean> _loginUserList;
+        public List<UserBean> LoginUserList
+        {
+            get
+            {
+                return _loginUserList;
+            }
+            set
+            {
+                _loginUserList = value;
+                NotifyPropertyChanged("LoginUserList");
+            }
+        }
 
+        private List<MusicBean> _musicList;
+        public List<MusicBean> MusicList
+        {
+            get
+            {
+                return _musicList;
+            }
+            set
+            {
+                _musicList = value;
+                NotifyPropertyChanged("MusicList");
+            }
+        }
 
+        private List<TrackBean> _trackList;
+        public List<TrackBean> TrackList
+        {
+            get
+            {
+                return _trackList;
+            }
+            set
+            {
+                _trackList = value;
+                NotifyPropertyChanged("TrackList");
+            }
+        }
+
+        private bool _isLogin;
+        public bool IsLogin
+        {
+            get
+            {
+                return _isLogin;
+            }
+            set
+            {
+                _isLogin = value; NotifyPropertyChanged("IsLogin");
+            }
+        }
+
+        private UserBean _loginUser;
+        public UserBean LoginUser
+        {
+            get
+            {
+                return _loginUser;
+            }
+            set
+            {
+                _loginUser = value;
+                NotifyPropertyChanged("LoginUser");
+            }
+        }
     }
 }

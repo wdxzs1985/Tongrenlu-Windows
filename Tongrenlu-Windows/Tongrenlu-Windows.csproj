@@ -67,8 +67,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\CoverObject.cs" />
     <Compile Include="Data\LoginUser.cs" />
     <Compile Include="Data\MainWindowViewModel.cs" />
+    <Compile Include="Data\ResultModel.cs" />
+    <Compile Include="Tools\CryptHelper.cs" />
+    <Compile Include="Tools\ImageHelper.cs" />
+    <Compile Include="UI\CoverImageView.xaml.cs">
+      <DependentUpon>CoverImageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserSelector.xaml.cs">
       <DependentUpon>UserSelector.xaml</DependentUpon>
     </Compile>
@@ -80,13 +87,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\Music.cs" />
-    <Compile Include="Data\Track.cs" />
-    <Compile Include="Http\HttpClient.cs" />
+    <Compile Include="Data\MusicBean.cs" />
+    <Compile Include="Data\TrackBean.cs" />
+    <Compile Include="Tools\HttpClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\CoverImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\UserSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -147,6 +158,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assert\ic_grade_white_48dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Log4net.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

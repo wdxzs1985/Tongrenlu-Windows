@@ -9,14 +9,8 @@ using System.Windows.Media;
 
 namespace Tongrenlu_Windows.Data
 {
-    public class UserList
+    public class MusicBean : INotifyPropertyChanged, CoverObject
     {
-        public List<UserBean> list { get; set; }
-    }
-
-    public class UserBean : INotifyPropertyChanged, CoverObject
-    {
-
         #region Interface
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -29,16 +23,10 @@ namespace Tongrenlu_Windows.Data
         }
         #endregion
 
-        public long id { get; set; }
+        public string id { get; set; }
+        public long articleId { get; set; }
+        public string title { get; set; }
 
-        public string nickname { get; set; }
-
-        public bool isGuest { get; set; }
-
-        public bool isMemeber { get; set; }
-
-        public string fingerprint { get; set; }
-        
         public string CoverPath
         {
             get
@@ -64,17 +52,15 @@ namespace Tongrenlu_Windows.Data
                 return "Assert/cover.jpg";
             }
         }
-
     }
 
-    public class SignInInfo
+    public class MusicPage : PageSupport
     {
-        public string salt { get; set; }
+        public List<MusicBean> items;
+    }
 
-        public bool result { get; set; }
-
-        public UserBean loginUser { get; set; }
-
-
+    public class MusicResultModel
+    {
+        public MusicPage page { get; set; }
     }
 }
