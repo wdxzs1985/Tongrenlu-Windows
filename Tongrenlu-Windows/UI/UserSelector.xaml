@@ -37,9 +37,9 @@
 
     <Grid Background="{StaticResource Primary}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="48"/>
         </Grid.ColumnDefinitions>
         <RepeatButton x:Name="DecreaseIndexButton" Grid.Column="0" 
 			Click="DecreaseIndexButton_Click" 
@@ -48,7 +48,6 @@
         </RepeatButton>
         <Grid Grid.Column="1">
             <Image x:Name="Avatar" Source="/Tongrenlu-Windows;component/Assert/ic_account_circle_white_48dp.png"
-                   Stretch="None"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"/>
             <Label x:Name="User"

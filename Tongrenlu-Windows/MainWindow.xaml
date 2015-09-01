@@ -26,14 +26,14 @@
                     Width="320" d:IsLocked="True" d:IsHidden="True" >
 
             <UI:UserSelector x:Name="UserSelector" 
-                             Width="160" Height="160"
+                             Width="240" Height="240"
                              VerticalAlignment="Top"
                              HorizontalAlignment="Center"
                              SelectedIndex="0"
                              UserList="{Binding LoginUserList}"
                              UserChanged="UserSelector_UserChanged"/>
 
-            <TextBox x:Name="UsernameBox" 
+            <TextBox x:Name="EmailBox" 
                      VerticalContentAlignment="Center"
                      BorderBrush="{x:Null}" 
                      TabIndex="1" SelectionBrush="{StaticResource Accent}"
@@ -67,7 +67,7 @@
             </Grid.RowDefinitions>
 
             <Grid Name="ListContent" Grid.Row="2">
-                <ItemsControl ItemsSource="{Binding MusicList}">
+                <ListBox ItemsSource="{Binding MusicList}">
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="{x:Type ItemsControl}">
                             <ScrollViewer Background="{StaticResource LightBackground}">
@@ -89,7 +89,7 @@
                                                Width="160" Height="160"></UI:CoverImageView>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </ListBox>
 
             </Grid>
 

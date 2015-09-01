@@ -72,6 +72,7 @@
     <Compile Include="Data\MainWindowViewModel.cs" />
     <Compile Include="Data\ResultModel.cs" />
     <Compile Include="Tools\CryptHelper.cs" />
+    <Compile Include="Tools\FileHelper.cs" />
     <Compile Include="Tools\ImageHelper.cs" />
     <Compile Include="UI\CoverImageView.xaml.cs">
       <DependentUpon>CoverImageView.xaml</DependentUpon>

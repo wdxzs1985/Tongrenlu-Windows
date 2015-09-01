@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Tongrenlu_Windows.Data;
+using Tongrenlu_Windows.Tools;
 
 namespace Tongrenlu_Windows.UI
 {
@@ -25,31 +26,34 @@ namespace Tongrenlu_Windows.UI
     {
 
         public static readonly DependencyProperty UserListProperty = DependencyProperty.Register(
-        "UserList",
-        typeof(List<UserBean>),
-        typeof(UserSelector),
-        new FrameworkPropertyMetadata(
-                new PropertyChangedCallback(UserSelector.OnUserChanged)
-        )
-);
+                "UserList",
+                typeof(List<UserBean>),
+                typeof(UserSelector),
+                new FrameworkPropertyMetadata(
+                        new PropertyChangedCallback(UserSelector.OnUserChanged)
+                )
+        );
 
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(
-        "SelectedIndex",
-        typeof(int),
-        typeof(UserSelector),
-        new FrameworkPropertyMetadata(
-                new PropertyChangedCallback(UserSelector.OnUserChanged)
-        )
-);
+                "SelectedIndex",
+                typeof(int),
+                typeof(UserSelector),
+                new FrameworkPropertyMetadata(
+                        new PropertyChangedCallback(UserSelector.OnUserChanged)
+                )
+        );
 
         private static void OnUserChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             UserSelector self = (UserSelector)obj;
             self.User.Content = self.SelectedUserName;
 
+            var path = String.Format("./cache/u{0}_avatar.jpg", self.SelectedUserId);
+            ImageHelper.LoadImage(self.Avatar, path, "Assert/ic_account_circle_white_48dp.png");
+            
             self.DecreaseIndexButton.IsEnabled = !self.IsFirst;
             self.IncreaseIndexButton.IsEnabled = !self.IsLast;
-
+            
             self.RaiseUserChangedEvent();
         }
 
@@ -115,15 +119,27 @@ namespace Tongrenlu_Windows.UI
         }
 
 
+        public long SelectedUserId
+        {
+            get
+            {
+                if (IsEmpty)
+                {
+                    return 0;
+                }
+                return SelectedUser.id;
+            }
+        }
+
         public string SelectedUserName
         {
             get
             {
-                if(IsEmpty)
+                if(SelectedUserId == 0)
                 {
-                    return "";
+                    return "new User";
                 }
-                return UserList[SelectedIndex].nickname;
+                return String.Format("{0}#{1}", SelectedUser.nickname, SelectedUser.id);
             }
         }
 

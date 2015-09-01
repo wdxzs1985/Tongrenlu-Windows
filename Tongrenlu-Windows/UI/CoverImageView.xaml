@@ -6,17 +6,27 @@
              xmlns:local="clr-namespace:Tongrenlu_Windows.UI"
              mc:Ignorable="d" 
              d:DesignHeight="160" d:DesignWidth="160">
-    <Grid Background="{StaticResource Primary}">
-        <Image Name="CoverImage"
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Center"
-            Grid.Column="0"></Image>
+    <UserControl.Resources>
 
-        <TextBlock Name="Title" 
-                   Text="{Binding title, FallbackValue=Title}" Grid.Column="1"
-                   Foreground="{StaticResource PrimaryText}"
-                   TextWrapping="Wrap"
-                   Background="{StaticResource LightDisabledText}"
-                   Padding="4" FontSize="24"></TextBlock>
+    </UserControl.Resources>
+    
+    <Grid Background="{StaticResource Primary}">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Name="CoverImage" Grid.RowSpan="2"
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                Grid.Column="0"></Image>
+
+        <TextBlock Name="Title" Grid.Row="1" Visibility="Visible"
+                               Text="{Binding title, FallbackValue=Title}" Grid.Column="1"
+                               Foreground="{StaticResource PrimaryText}"
+                               TextWrapping="Wrap"
+                               Background="{StaticResource LightDisabledText}"
+                               Padding="4" FontSize="12">
+        </TextBlock>
+
     </Grid>
 </UserControl>

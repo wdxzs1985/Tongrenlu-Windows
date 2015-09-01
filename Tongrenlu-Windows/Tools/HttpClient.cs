@@ -34,6 +34,13 @@ namespace Tongrenlu_Windows.Http
             cc = new CookieContainer();
         }
 
+        internal void addCookie(string url, string name, string value)
+        {
+            HttpWebRequest webreq = CreateRequest(url);
+            var cookie = new Cookie(name, value);
+            cc.Add(webreq.RequestUri, cookie);
+        }
+
         public Cookie findCookie(string url, string name)
         {
             HttpWebRequest webreq = CreateRequest(url);
@@ -112,6 +119,7 @@ namespace Tongrenlu_Windows.Http
 
             return request;
         }
+
 
         public HttpWebRequest PostForm(HttpWebRequest request, Dictionary<string, string> values)
         {
