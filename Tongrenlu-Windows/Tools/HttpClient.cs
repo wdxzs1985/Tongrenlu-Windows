@@ -11,7 +11,7 @@ using System.Collections;
 using Newtonsoft.Json;
 using log4net;
 
-namespace Tongrenlu_Windows.Http
+namespace Tongrenlu_Windows.Tools
 {
     public class HttpClient
     {

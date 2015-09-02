@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -67,10 +68,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DelegateCommand.cs" />
     <Compile Include="Data\CoverObject.cs" />
-    <Compile Include="Data\LoginUser.cs" />
-    <Compile Include="Data\MainWindowViewModel.cs" />
-    <Compile Include="Data\ResultModel.cs" />
+    <Compile Include="Data\UserBean.cs" />
+    <Compile Include="Model\MainWindowViewModel.cs" />
+    <Compile Include="Data\IPageSupport.cs" />
     <Compile Include="Tools\CryptHelper.cs" />
     <Compile Include="Tools\FileHelper.cs" />
     <Compile Include="Tools\ImageHelper.cs" />
@@ -164,6 +166,9 @@
     <None Include="Log4net.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assert\ic_arrow_back_white_48dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,5 +14,13 @@ namespace Tongrenlu_Windows.Data
         public string title { get; set; }
         public string artist { get; set; }
         public int rate { get; set; }
+
+        public bool xfd { get; set; }
+    }
+
+
+    public class TrackResultModel
+    {
+        public List<TrackBean> playlist { get; set; }
     }
 }

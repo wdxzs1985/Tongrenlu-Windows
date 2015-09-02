@@ -67,7 +67,7 @@
             </Grid.RowDefinitions>
 
             <Grid Name="ListContent" Grid.Row="2">
-                <ListBox ItemsSource="{Binding MusicList}">
+                <ItemsControl ItemsSource="{Binding MusicList}">
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="{x:Type ItemsControl}">
                             <ScrollViewer Background="{StaticResource LightBackground}">
@@ -85,30 +85,35 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <UI:CoverImageView Cover="{Binding}" 
-                                               Width="160" Height="160"></UI:CoverImageView>
+                            <Button Name="MusicItem" Style="{StaticResource FlatButton}"
+                                    Background="Transparent" 
+                                    Click="MusicItem_Click"
+                                    Tag="{Binding}">
+                                <UI:CoverImageView 
+                                    Cover="{Binding}" 
+                                    Width="160" Height="160" />
+                            </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ListBox>
+                </ItemsControl>
 
             </Grid>
 
-            <Grid Name="DetailContent" Grid.RowSpan="3" Background="{StaticResource LightBackground}" 
-                  Visibility="Collapsed"
-                  d:IsHidden="True">
+            <Grid Name="DetailContent" 
+                  Grid.RowSpan="3" 
+                  Background="{StaticResource LightBackground}" 
+                  Visibility="Visible">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="320"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Grid Name="DetailHeader" Grid.Row="0" Grid.Column="0">
-                        <Grid.Background>
-                            <ImageBrush ImageSource="Assert/cover.jpg" TileMode="Tile" Stretch="UniformToFill" AlignmentY="Top"/>
-                        </Grid.Background>
+                    <Grid Name="DetailHeader" Grid.Row="0" Grid.Column="0" Background="{StaticResource Primary}">
                         <Rectangle Fill="{StaticResource StatusBar}"></Rectangle>
 
-                        <TextBlock Text="[Alstroemeria Records] The Garnet Star" 
+                        <TextBlock Name="DetailTitle" Text="Title" 
+                                   Margin="16"
                                    Foreground="{StaticResource PrimaryText}"
                                    TextWrapping="Wrap"
                                    VerticalAlignment="Bottom"
@@ -165,9 +170,15 @@
 
 
             <StackPanel Name="AppBar" Grid.Row="1" Orientation="Horizontal">
+                <Button Name="AppBarBack" Style="{StaticResource FlatButton}" 
+                        Background="Transparent"
+                        Width="64" Height="64" Visibility="Visible"
+                        Click="AppBarBack_Click">
+                    <Image Source="Assert/ic_arrow_back_white_48dp.png" Width="32" Height="32"/>
+                </Button>
                 <Button Name="AppBarMenu" Style="{StaticResource FlatButton}" 
                         Background="Transparent"
-                        Width="64" Height="64" Visibility="Hidden">
+                        Width="64" Height="64" Visibility="Collapsed">
                     <Image Source="Assert/ic_menu_white_48dp.png" Width="32" Height="32"/>
                 </Button>
                 <Label Name="AppBarTitle" Content="Demo" Style="{StaticResource AppBarTitle}"/>

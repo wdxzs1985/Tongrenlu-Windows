@@ -44,7 +44,7 @@ namespace Tongrenlu_Windows.UI
             }
 
             var path = self.Cover.CoverPath;
-            var url = self.Cover.CoverPath;
+            var url = self.Cover.CoverUrl;
             if (File.Exists(path) || App.HTTP.DownloadBinary(url, path))
             {
                 self.CoverImage.Source = ImageHelper.LoadBitmapFromFile(path);

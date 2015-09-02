@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tongrenlu_Windows.Data;
-using Tongrenlu_Windows.Http;
+using Tongrenlu_Windows.Model;
 using Tongrenlu_Windows.Tools;
 
 namespace Tongrenlu_Windows
@@ -53,6 +53,10 @@ namespace Tongrenlu_Windows
 
         private async void initLoginPanel()
         {
+            LoginPanel.Visibility = Visibility.Visible;
+            MainPanel.Visibility = Visibility.Collapsed;
+            DetailContent.Visibility = Visibility.Collapsed;
+
             _viewModel.LoginUserList = await Task.Run(() =>
             {
                 var userList = LoadUserList();
@@ -60,20 +64,81 @@ namespace Tongrenlu_Windows
                 return userList;
             });
 
-            LoginPanel.Visibility = Visibility.Visible;
-            MainPanel.Visibility = Visibility.Collapsed;
-
         }
 
-        public void StartMusicPanel()
+        public void StartMusicListPanel()
         {
+            LoginPanel.Visibility = Visibility.Collapsed;
+            MainPanel.Visibility = Visibility.Visible;
+
+            ListContent.Visibility = Visibility.Visible;
+            DetailContent.Visibility = Visibility.Collapsed;
+
+            AppBarBack.Visibility = Visibility.Collapsed;
+            AppBarMenu.Visibility = Visibility.Visible;
+
+            AppBarTitle.Visibility = Visibility.Visible;
+            AppBarTitle.Content = _viewModel.LoginUser.nickname;
+
             LoadMusicList();
         }
+
+
+        public void StartMusicDetailPanel(MusicBean music)
+        {
+            ListContent.Visibility = Visibility.Collapsed;
+            DetailContent.Visibility = Visibility.Visible;
+
+            AppBarBack.Visibility = Visibility.Visible;
+            AppBarMenu.Visibility = Visibility.Collapsed;
+
+            AppBarTitle.Visibility = Visibility.Collapsed;
+
+            DetailTitle.Text = music.title;
+
+            var imageSource = ImageHelper.LoadImageSource(music.CoverPath, "Assert/cover.jpg");
+
+            ImageBrush brush = new ImageBrush(imageSource);
+            brush.Stretch = Stretch.UniformToFill;
+            brush.AlignmentY = AlignmentY.Top;
+            DetailHeader.Background = brush;
+
+            const int PALETTE_COUNT = 4;
+            var palette = new BitmapPalette(imageSource, PALETTE_COUNT);
+
+            if(log.IsDebugEnabled)
+            {
+                foreach (var color in palette.Colors)
+                {
+                    log.Debug("color:" + color.ToString());
+                }
+            }
+            
+            var primaryColor = palette.Colors[0];
+            DetailContent.Background = new SolidColorBrush(primaryColor);
+
+            var textColor = palette.Colors[PALETTE_COUNT - 1];
+            DetailTitle.Foreground = new SolidColorBrush(textColor);
+
+            LoadTrackList(music);
+        }
+
+        private void FinishMusicDetailPanel()
+        {
+            ListContent.Visibility = Visibility.Visible;
+            DetailContent.Visibility = Visibility.Collapsed;
+
+            AppBarBack.Visibility = Visibility.Collapsed;
+            AppBarMenu.Visibility = Visibility.Visible;
+
+            AppBarTitle.Visibility = Visibility.Visible;
+        }
+
 
         private async void LoadMusicList()
         {
             await Task.Run(() => {
-                var url = String.Format("{0}/fm/library", HOST);
+                var url = String.Format("{0}/fm/music", HOST);
                 var result = _client.Get(url);
 
                 var data = JsonConvert.DeserializeObject<MusicResultModel>(result);
@@ -84,6 +149,18 @@ namespace Tongrenlu_Windows
                 {
 
                 }
+            });
+        }
+
+        private async void LoadTrackList(MusicBean music)
+        {
+            await Task.Run(() => {
+                var url = String.Format("{0}/music/{1}/track", HOST, music.id);
+                var result = _client.Get(url);
+
+                var data = JsonConvert.DeserializeObject<TrackResultModel>(result);
+
+                _viewModel.TrackList = data.playlist;
             });
         }
 
@@ -106,8 +183,7 @@ namespace Tongrenlu_Windows
             LoginButton.IsEnabled = false;
             var isLogin = false;
             UserBean loginUser = null;
-
-            //_client = new HttpClient();
+            
             _client.clearCookie();
 
             if (!UserSelector.IsEmpty && UserSelector.SelectedUser.fingerprint != null)
@@ -154,10 +230,10 @@ namespace Tongrenlu_Windows
                             loginUser = await Task.Run(() => {
                                 var url = String.Format("{0}/signin", HOST);
                                 var result = _client.Post(url, new Dictionary<string, string>() {
-                            { "email" , email },
-                            { "password", CryptHelper.Md5Hex(CryptHelper.Md5Hex(password) + salt) },
-                            { "autoLogin", "1" }
-                        });
+                                    { "email" , email },
+                                    { "password", CryptHelper.Md5Hex(CryptHelper.Md5Hex(password) + salt) },
+                                    { "autoLogin", "1" }
+                                });
 
                                 var data = JsonConvert.DeserializeObject<SignInInfo>(result);
 
@@ -168,7 +244,6 @@ namespace Tongrenlu_Windows
                                 }
                                 return null;
                             });
-                            
                         }
                     }
                 }
@@ -197,10 +272,7 @@ namespace Tongrenlu_Windows
                     _viewModel.LoginUser = loginUser;
                     _viewModel.IsLogin = true;
 
-                    LoginPanel.Visibility = Visibility.Collapsed;
-                    MainPanel.Visibility = Visibility.Visible;
-                    
-                    StartMusicPanel();
+                    StartMusicListPanel();
 
                     var userId = loginUser.id;
                     //download user avatar
@@ -284,5 +356,17 @@ namespace Tongrenlu_Windows
             FileHelper.WriteStringToFile(USERFILE, json);
         }
 
+        private void MusicItem_Click(object sender, RoutedEventArgs e)
+        {
+            Button item = (Button)sender;
+            MusicBean music = (MusicBean)item.Tag;
+            
+            StartMusicDetailPanel(music);
+        }
+
+        private void AppBarBack_Click(object sender, RoutedEventArgs e)
+        {
+            FinishMusicDetailPanel();
+        }
     }
 }

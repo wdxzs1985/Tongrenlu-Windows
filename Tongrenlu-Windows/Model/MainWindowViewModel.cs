@@ -5,8 +5,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Tongrenlu_Windows.Data;
 
-namespace Tongrenlu_Windows.Data
+namespace Tongrenlu_Windows.Model
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
@@ -90,5 +92,7 @@ namespace Tongrenlu_Windows.Data
                 NotifyPropertyChanged("LoginUser");
             }
         }
+
+        public ICommand ItemClickedCommand { get; private set; }
     }
 }

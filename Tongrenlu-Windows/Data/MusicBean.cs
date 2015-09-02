@@ -23,7 +23,7 @@ namespace Tongrenlu_Windows.Data
         }
         #endregion
 
-        public string id { get; set; }
+        public long id { get; set; }
         public long articleId { get; set; }
         public string title { get; set; }
 
@@ -54,9 +54,51 @@ namespace Tongrenlu_Windows.Data
         }
     }
 
-    public class MusicPage : PageSupport
+    public class MusicPage : IPageSupport
     {
         public List<MusicBean> items;
+
+        public bool first
+        {
+            get;
+
+            set;
+        }
+
+        public int itemCount
+        {
+            get;
+
+            set;
+        }
+
+        public bool last
+        {
+            get;
+
+            set;
+        }
+
+        public int pageCount
+        {
+            get;
+
+            set;
+        }
+
+        public int pageNumber
+        {
+            get;
+
+            set;
+        }
+
+        public int pageSize
+        {
+            get;
+
+            set;
+        }
     }
 
     public class MusicResultModel

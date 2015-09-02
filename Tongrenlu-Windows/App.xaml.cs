@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Tongrenlu_Windows.Http;
+using Tongrenlu_Windows.Tools;
 
 namespace Tongrenlu_Windows
 {
@@ -14,7 +14,7 @@ namespace Tongrenlu_Windows
     /// </summary>
     public partial class App : Application
     {
-        public static HttpClient HTTP = new Http.HttpClient();
+        public static HttpClient HTTP = new HttpClient();
 
     }
 }

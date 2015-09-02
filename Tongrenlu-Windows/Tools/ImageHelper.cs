@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Tongrenlu_Windows.Tools
 {
@@ -15,13 +16,18 @@ namespace Tongrenlu_Windows.Tools
     {
         public static void LoadImage(Image image, string path, string placeholder)
         {
+            image.Source = LoadImageSource(path, placeholder);
+        }
+
+        public static BitmapImage LoadImageSource(string path, string placeholder)
+        {
             if (File.Exists(path))
             {
-                image.Source = LoadBitmapFromFile(path);
+                return LoadBitmapFromFile(path);
             }
             else
             {
-                image.Source = LoadBitmapFromResource(placeholder);
+                return LoadBitmapFromResource(placeholder);
             }
         }
 
