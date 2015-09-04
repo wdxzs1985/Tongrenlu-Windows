@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using Tongrenlu_Windows.Data;
 using Tongrenlu_Windows.Model;
 using Tongrenlu_Windows.Tools;
+using Tongrenlu_Windows.UI;
 
 namespace Tongrenlu_Windows
 {
@@ -29,7 +30,7 @@ namespace Tongrenlu_Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        public const string HOST = "http://127.0.0.1";
+        public const string HOST = "http://www.tongrenlu.info";
         public const string USERFILE = "user.json";
         public const string FINGERPRINT = "fingerprint";
 
@@ -78,7 +79,7 @@ namespace Tongrenlu_Windows
             AppBarMenu.Visibility = Visibility.Visible;
 
             AppBarTitle.Visibility = Visibility.Visible;
-            AppBarTitle.Content = _viewModel.LoginUser.nickname;
+            //AppBarTitle.Content = _viewModel.LoginUser.nickname;
 
             LoadMusicList();
         }
@@ -137,19 +138,36 @@ namespace Tongrenlu_Windows
 
         private async void LoadMusicList()
         {
-            await Task.Run(() => {
-                var url = String.Format("{0}/fm/music", HOST);
-                var result = _client.Get(url);
+            var isLast = false;
+            var page = 0;
 
-                var data = JsonConvert.DeserializeObject<MusicResultModel>(result);
-                
-                _viewModel.MusicList = data.page.items;
-                
-                foreach(var musicBean in data.page.items)
+            _viewModel.MusicList = new List<MusicBean>();
+
+            while (!isLast)
+            {
+                page++;
+
+                var data = await Task.Run(() => {
+                    var url = String.Format("{0}/fm/library?p={1}", HOST, page);
+                    log.Info(url);
+                    var result = _client.Get(url);
+
+                    return JsonConvert.DeserializeObject<MusicResultModel>(result);
+
+                });
+                if (data.page.itemCount > 0)
                 {
+                    _viewModel.MusicList.AddRange(data.page.items);
+                    //_viewModel.MusicList = new List<MusicBean>(musicList);
 
                 }
-            });
+
+                page = data.page.pageNumber;
+                isLast = data.page.last;
+            }
+
+            MusicListView.Items.Refresh();
+            //_viewModel.MusicList = new List<MusicBean>(musicList);
         }
 
         private async void LoadTrackList(MusicBean music)
@@ -367,6 +385,15 @@ namespace Tongrenlu_Windows
         private void AppBarBack_Click(object sender, RoutedEventArgs e)
         {
             FinishMusicDetailPanel();
+        }
+        
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void StatusBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

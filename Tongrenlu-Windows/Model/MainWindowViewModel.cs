@@ -15,7 +15,7 @@ namespace Tongrenlu_Windows.Model
         #region Interface
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
             {
@@ -90,6 +90,19 @@ namespace Tongrenlu_Windows.Model
             {
                 _loginUser = value;
                 NotifyPropertyChanged("LoginUser");
+                NotifyPropertyChanged("LoginUserName");
+            }
+        }
+        
+        public string LoginUserName
+        {
+            get
+            {
+                if (LoginUser == null)
+                {
+                    return "Guest";
+                }
+                return String.Format("{0}#{1}", LoginUser.nickname, LoginUser.id);
             }
         }
 

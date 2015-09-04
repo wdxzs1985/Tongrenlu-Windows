@@ -21,41 +21,57 @@ namespace Tongrenlu_Windows.UI
     /// <summary>
     /// Interaction logic for CoverImage.xaml
     /// </summary>
-    public partial class CoverImageView : UserControl
+    public partial class GalleryImageView : UserControl
     {
 
         public static readonly DependencyProperty CoverObjectProperty = DependencyProperty.Register(
                 "Cover",
                 typeof(CoverObject),
-                typeof(CoverImageView),
+                typeof(GalleryImageView),
                 new FrameworkPropertyMetadata(
                         new PropertyChangedCallback(OnCoverUpdate)
                 )
         );
 
-        private static void OnCoverUpdate(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static async void OnCoverUpdate(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            CoverImageView self = (CoverImageView)obj;
-
-            var dirName = "cache";
-            if (!Directory.Exists(dirName))
-            {
-                Directory.CreateDirectory(dirName);
-            }
+            GalleryImageView self = (GalleryImageView)obj;
 
             var path = self.Cover.CoverPath;
             var url = self.Cover.CoverUrl;
-            if (File.Exists(path) || App.HTTP.DownloadBinary(url, path))
+
+            self.CoverImage.Source = ImageHelper.LoadBitmapFromResource(self.Cover.CoverPlaceholder);
+
+            var isDownloaded = await Task.Run(() => {
+
+                if (File.Exists(path))
+                {
+                    return true;
+                }
+
+                var dirName = "cache";
+                if (!Directory.Exists(dirName))
+                {
+                    Directory.CreateDirectory(dirName);
+                }
+
+                return App.HTTP.DownloadBinary(url, path);
+            });
+            
+            if (isDownloaded)
             {
-                self.CoverImage.Source = ImageHelper.LoadBitmapFromFile(path);
-            }
-            else
-            {
-                self.CoverImage.Source = ImageHelper.LoadBitmapFromResource(self.Cover.CoverPlaceholder);
+                try
+                {
+                    self.CoverImage.Source = ImageHelper.LoadBitmapFromFile(path);
+                }
+                catch
+                {
+                    self.CoverImage.Source = ImageHelper.LoadBitmapFromResource(self.Cover.CoverPlaceholder);
+                }
             }
         }
 
-        public CoverImageView()
+        public GalleryImageView()
         {
             InitializeComponent();
         }

@@ -9,10 +9,11 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Background="Transparent"
-        WindowStyle="SingleBorderWindow"
-        AllowsTransparency="False"
-        Width="992"
-        Height="752">
+        WindowStyle="None"
+        AllowsTransparency="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Width="1024"
+        Height="768">
     <Grid Margin="16" Background="{StaticResource Primary}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"></RowDefinition>
@@ -59,50 +60,46 @@
 
         </StackPanel>
 
-        <Grid Grid.RowSpan="3" Name="MainPanel" Visibility="Visible" >
+        <Grid Grid.RowSpan="3" Name="MainPanel" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="64"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid Name="ListContent" Grid.Row="2">
-                <ItemsControl ItemsSource="{Binding MusicList}">
+            <Grid Name="ListContent" Grid.Row="2" Background="{StaticResource LightBackground}">
+                <ItemsControl Name="MusicListView" ItemsSource="{Binding MusicList}">
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="{x:Type ItemsControl}">
-                            <ScrollViewer Background="{StaticResource LightBackground}">
+                            <ScrollViewer>
                                 <ItemsPresenter Margin="0,0,0,0"/>
                             </ScrollViewer>
                         </ControlTemplate>
                     </ItemsControl.Template>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel VirtualizingPanel.IsVirtualizing="True" 
-                                       IsItemsHost="True" 
-                                       Orientation="Horizontal" 
-                                       FlowDirection="LeftToRight" />
+                            <WrapPanel VirtualizingPanel.IsVirtualizing="True"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Name="MusicItem" Style="{StaticResource FlatButton}"
+                            <Button Style="{StaticResource FlatButton}"
                                     Background="Transparent" 
                                     Click="MusicItem_Click"
-                                    Tag="{Binding}">
-                                <UI:CoverImageView 
+                                    Tag="{Binding}" Margin="2,0,0,2">
+                                <UI:GalleryImageView 
                                     Cover="{Binding}" 
                                     Width="160" Height="160" />
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
             </Grid>
 
             <Grid Name="DetailContent" 
                   Grid.RowSpan="3" 
                   Background="{StaticResource LightBackground}" 
-                  Visibility="Visible">
+                  Visibility="Visible" d:IsHidden="True">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="320"></RowDefinition>
@@ -181,24 +178,29 @@
                         Width="64" Height="64" Visibility="Collapsed">
                     <Image Source="Assert/ic_menu_white_48dp.png" Width="32" Height="32"/>
                 </Button>
-                <Label Name="AppBarTitle" Content="Demo" Style="{StaticResource AppBarTitle}"/>
+                <Label Name="AppBarTitle" Content="{Binding LoginUserName}" Style="{StaticResource AppBarTitle}"/>
             </StackPanel>
 
 
         </Grid>
 
-        <Grid Name="StatusBar" Grid.Row="0" Background="#42000000" >
-            <Label Content="Tongrenlu" Foreground="{StaticResource PrimaryText}"/>
+        <Grid Name="StatusBar" Grid.Row="0" Background="#42000000" MouseLeftButtonDown="StatusBar_MouseLeftButtonDown">
+            <Label Content="Tongrenlu" Foreground="{StaticResource PrimaryText}" />
 
             <Button Name="UserAvatarButton" 
                     Style="{StaticResource FlatButton}" Background="Transparent" 
-                    Width="32" Height="32"
                     Margin="0,0,32,0"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                    Visibility="{Binding IsLogin, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Image Name="UserAvatarButtonImage" 
+                <StackPanel Orientation="Horizontal">
+                    <Image Name="UserAvatarButtonImage" Width="32" Height="32"
                        Source="Assert/ic_account_circle_white_48dp.png"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Label Content="{Binding LoginUserName}" 
+                           Foreground="{StaticResource PrimaryText}"
+                           VerticalAlignment="Center"></Label>
+                </StackPanel>
+
             </Button>
 
             <Button Name="CloseWindowButton" 

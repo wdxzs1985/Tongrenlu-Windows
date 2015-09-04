@@ -68,7 +68,7 @@ namespace Tongrenlu_Windows.UI
 
         void RaiseUserChangedEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(UserSelector.UserChangedEvent);
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(UserChangedEvent);
             RaiseEvent(newEventArgs);
         }
 

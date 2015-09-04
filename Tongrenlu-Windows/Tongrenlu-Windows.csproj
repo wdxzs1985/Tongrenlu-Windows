@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -76,8 +77,8 @@
     <Compile Include="Tools\CryptHelper.cs" />
     <Compile Include="Tools\FileHelper.cs" />
     <Compile Include="Tools\ImageHelper.cs" />
-    <Compile Include="UI\CoverImageView.xaml.cs">
-      <DependentUpon>CoverImageView.xaml</DependentUpon>
+    <Compile Include="UI\GalleryImageView.xaml.cs">
+      <DependentUpon>GalleryImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserSelector.xaml.cs">
       <DependentUpon>UserSelector.xaml</DependentUpon>
@@ -97,7 +98,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\CoverImageView.xaml">
+    <Page Include="UI\GalleryImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
