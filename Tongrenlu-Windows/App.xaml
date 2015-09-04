@@ -34,6 +34,9 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
+        <BlurEffect x:Key="R9_CoverBlurEffect" Radius="9"/>
+        <DropShadowEffect x:Key="L1_DropShadowEffect" Direction="270" Opacity="0.33" ShadowDepth="3"/>
+        
         <Style x:Key="AppBarTitle" TargetType="Label">
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"></Setter>
             <Setter Property="FontSize" Value="24"/>
@@ -72,9 +75,7 @@
                         <Grid>
                             <Rectangle Name="BackgroundWrap" Fill="{TemplateBinding Background}"></Rectangle>
                             <Rectangle Name="BackgroundHighlight" Fill="Transparent"></Rectangle>
-                            <ContentPresenter Name="ContentPresenter" 
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"></ContentPresenter>
+                            <ContentPresenter Name="ContentPresenter" ></ContentPresenter>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">

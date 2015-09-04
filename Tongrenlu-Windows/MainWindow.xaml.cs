@@ -98,28 +98,9 @@ namespace Tongrenlu_Windows
             DetailTitle.Text = music.title;
 
             var imageSource = ImageHelper.LoadImageSource(music.CoverPath, "Assert/cover.jpg");
-
-            ImageBrush brush = new ImageBrush(imageSource);
-            brush.Stretch = Stretch.UniformToFill;
-            brush.AlignmentY = AlignmentY.Top;
-            DetailHeader.Background = brush;
-
-            const int PALETTE_COUNT = 4;
-            var palette = new BitmapPalette(imageSource, PALETTE_COUNT);
-
-            if(log.IsDebugEnabled)
-            {
-                foreach (var color in palette.Colors)
-                {
-                    log.Debug("color:" + color.ToString());
-                }
-            }
             
-            var primaryColor = palette.Colors[0];
-            DetailContent.Background = new SolidColorBrush(primaryColor);
-
-            var textColor = palette.Colors[PALETTE_COUNT - 1];
-            DetailTitle.Foreground = new SolidColorBrush(textColor);
+            DetailHeaderBackground.Source = imageSource;
+            DetailCoverImage.Source = imageSource;
 
             LoadTrackList(music);
         }
@@ -181,20 +162,6 @@ namespace Tongrenlu_Windows
                 _viewModel.TrackList = data.playlist;
             });
         }
-
-        private void TrackList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            log.Debug(e.ToString());
-
-            if (e.AddedItems.Count > 0)
-            {
-                TrackBean track = (TrackBean)e.AddedItems[0];
-                log.Debug(track.checksum);
-                
-                TrackList.UnselectAll();
-            }
-        }
-
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
